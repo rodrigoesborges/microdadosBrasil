@@ -22,7 +22,9 @@ read_var_translator <- function(dataset, ft){
                         package = "microdadosBrasil"), stringsAsFactors = FALSE, check.names =F)
 }
 
-
+count_occurrences <- function(str, expr) {
+  return(lengths(regmatches(str, gregexpr(expr, str))))
+}
 
 
 
@@ -210,6 +212,62 @@ read_data <- function(dataset,ft,i, metadata = NULL,var_translator=NULL,root_pat
   return(d)
 }
 
+
+#' Reads Censo Escolar .csv files with ff
+#' @param ft file type. Indicates the subdataset within the dataset. For example: "pessoa" (person) or "domicílio" (household) data from the "CENSO" (Census). For a list of available ft for the period just type an invalid ft (Ex: ft = 'aasfasf')
+#' @param i period. Normally period in YYY format.
+#' @param root_path (optional) a path to the directory where dataset was downloaded
+#' @import dplyr
+#' @importFrom data.table data.table setnames rbindlist :=
+#' @importFrom stats setNames
+#' @export
+read_data_censoescolar_ff <- function(ft, i, root_path=NULL){
+
+  dataset <- "CensoEscolar"
+  metadata<- read_metadata(dataset)
+  ft_list<- get_available_filetypes(metadata, i)
+
+  #names used to subset metadata data.frame
+  ft2      <- paste0("ft_",ft)
+  ft_list2 <- paste0("ft_",ft_list)
+  var_list <- names(metadata)[ !(names(metadata) %in% ft_list2)]
+
+  # subseting metadata and var_translator
+  md <- metadata[metadata$period == i,] %>% select_(.dots =c(var_list,ft2))  %>% rename_(.dots=setNames(ft2,ft))
+
+  # get files list
+  a <- md %>% select_(.dots = ft) %>% collect %>% .[[ft]]
+  file_name <- unlist(strsplit(a, split='&'))[2]
+  delim <- unlist(strsplit(a, split='&'))[1]  # for csv files
+  format <- md %>% select_(.dots = 'format') %>% collect %>% .[['format']]
+  missing_symbol <- md %>% select_(.dots = 'missing_symbols') %>% collect %>% .[['missing_symbols']]
+  missing_symbol <- ifelse(test = is.na(missing_symbol), no = strsplit(missing_symbol,split = "&"), yes = "NA") %>% unlist
+  data_path <-  paste(c(root_path,md$path,md$data_folder)[!is.na(c(root_path,md$path,md$data_folder))] ,collapse = "/")
+  if(data_path == ""){data_path <- getwd()}
+  files <- list.files(path=data_path,recursive = TRUE, full.names = TRUE) %>% grep(pattern = paste0(file_name, "$"), value = T, ignore.case = T)
+
+  # ensure the correct filetype gets opened
+  if (ft == "docente" | ft == "matricula") files <- files[str_count_occurrences(files, "NORDESTE") > 0]
+
+  # some debugging
+  print(delim)
+  print(file_name)
+  print(data_path)
+  print(files)
+
+  # Checking if microdados are extracted
+  if (!any(file.exists(files))) { stop("Data not found. Check if you have unziped the data" )  }
+
+  # load ff
+  options(fftempdir=root_path)
+  require(ff)
+  require(ffbase)
+
+  # read csv file with ff capabilities
+  df <- read.csv2.ffdf(file = files[1], header=TRUE, VERBOSE=TRUE, sep=delim, first.rows=20000)
+
+  return(df)
+}
 
 
 
