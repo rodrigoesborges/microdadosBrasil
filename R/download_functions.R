@@ -194,21 +194,19 @@ download_sourceData <- function(dataset, i, unzip=T , root_path = NULL, replace 
       exdir<- zip_file %>% gsub(pattern = "\\.zip", replacement = "")
       unzip(zipfile = zip_file,exdir = exdir )
     }
-    #for(zip_file in r7z_files){
 
+    #for(zip_file in r7z_files){
     # exdir<- zip_file %>% gsub(pattern = "\\.7z", replacement = "")
     # archive::archive_extract(zip_file, exdir)
-
     #}
 
-    #for(zip_file in rar_files){
-
-    #  exdir<- zip_file %>% gsub(pattern = "\\.rar", replacement = "")
-    #  archive::archive_extract(zip_file, exdir)
-
-    #}
-
-
+    # check if package "archive" is installed before trying to extract the .rar files.
+    if(("archive" %in% installed.packages()[,1])){
+      for(zip_file in rar_files){
+        exdir<- zip_file %>% gsub(pattern = "\\.rar", replacement = "")
+        archive::archive_extract(zip_file, exdir)
+      }
+    }
 }
 
   if(all(file.info(paste(c(root_path,filename),collapse = "/"))$isdir)){
