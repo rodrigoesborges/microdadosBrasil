@@ -26,8 +26,6 @@ count_occurrences <- function(str, expr) {
   return(lengths(regmatches(str, gregexpr(expr, str))))
 }
 
-
-
 #' @import readr
 aux_read_fwf <- function(f,dic, nrows = -1L, na = "NA"){
 
@@ -221,7 +219,7 @@ read_data <- function(dataset,ft,i, metadata = NULL,var_translator=NULL,root_pat
 #' @importFrom data.table data.table setnames rbindlist :=
 #' @importFrom stats setNames
 #' @export
-read_data_censoescolar_ff <- function(ft, i, root_path=NULL){
+read_data_censoescolar_ff <- function(ft, i, root_path){
 
   dataset <- "CensoEscolar"
   metadata<- read_metadata(dataset)
@@ -247,7 +245,8 @@ read_data_censoescolar_ff <- function(ft, i, root_path=NULL){
   files <- list.files(path=data_path,recursive = TRUE, full.names = TRUE) %>% grep(pattern = paste0(file_name, "$"), value = T, ignore.case = T)
 
   # ensure the correct filetype gets opened
-  if (ft == "docente" | ft == "matricula") files <- files[str_count_occurrences(files, "NORDESTE") > 0]
+  if (ft == "docente") files <- files[count_occurrences(files, "DOCENTES_NORDESTE") > 0]
+  if (ft == "matricula") files <- files[count_occurrences(files, "MATRICULA_NORDESTE") > 0]
 
   # some debugging
   print(delim)
