@@ -205,6 +205,7 @@ download_sourceData <- function(dataset, i, unzip=T , root_path = NULL, replace 
       for(zip_file in rar_files){
         exdir<- zip_file %>% gsub(pattern = "\\.rar", replacement = "")
         archive::archive_extract(zip_file, exdir)
+        cat(paste0("Extracted ", zip_file,"\n"))
       }
     }
 }
