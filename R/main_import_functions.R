@@ -263,7 +263,8 @@ read_data_censoescolar_ff <- function(ft, i, root_path){
   require(ffbase)
 
   # read csv file with ff capabilities
-  df <- read.csv2.ffdf(file = files[1], header=TRUE, VERBOSE=TRUE, sep=delim, first.rows=20000)
+  # some csv files will not be read with first.rows < 2e4...
+  df <- read.csv2.ffdf(file = files[1], header=TRUE, VERBOSE=TRUE, sep=delim, first.rows=200000)
 
   return(df)
 }
