@@ -213,13 +213,14 @@ read_data <- function(dataset,ft,i, metadata = NULL,var_translator=NULL,root_pat
 
 #' Reads Censo Escolar .csv files with ff
 #' @param ft file type. Indicates the subdataset within the dataset. For example: "pessoa" (person) or "domicílio" (household) data from the "CENSO" (Census). For a list of available ft for the period just type an invalid ft (Ex: ft = 'aasfasf')
-#' @param i period. Normally period in YYY format.
-#' @param root_path (optional) a path to the directory where dataset was downloaded
+#' @param i period: yyyy format
+#' @param vars_subset string vector -- each element refers to a dataframe column
+#' @param root_path  a path to the directory where dataset was downloaded
 #' @import dplyr
 #' @importFrom data.table data.table setnames rbindlist :=
 #' @importFrom stats setNames
 #' @export
-read_data_censoescolar_ff <- function(ft, i, root_path){
+read_data_censoescolar_ff <- function(ft, i, vars_subset = NULL, root_path){
 
   dataset <- "CensoEscolar"
   metadata<- read_metadata(dataset)
@@ -265,6 +266,9 @@ read_data_censoescolar_ff <- function(ft, i, root_path){
   # read csv file with ff capabilities
   # some csv files will not be read with first.rows < 2e4...
   df <- read.csv2.ffdf(file = files[1], header=TRUE, VERBOSE=TRUE, sep=delim, first.rows=200000)
+
+  # subset vars
+  if (!is.null(vars_subset)) df <- df[vars_subset]
 
   return(df)
 }
