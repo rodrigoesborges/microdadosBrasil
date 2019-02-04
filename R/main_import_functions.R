@@ -118,8 +118,6 @@ read_data <- function(dataset,ft,i, metadata = NULL,var_translator=NULL,root_pat
   if (!is.null(var_translator)) {
     vt <- var_translator %>% rename_( old_varname = as.name(paste0('varname',i)))
     vt <- vt[!is.na(vt$old_varname), c("std_varname", "old_varname")]
-
-    #print(str(vt))
   }
 
   a <- md %>% select_(.dots = ft) %>% collect %>% .[[ft]]
