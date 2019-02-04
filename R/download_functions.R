@@ -65,24 +65,23 @@ download_sourceData <- function(dataset, i, unzip=T , root_path = NULL, replace 
 
   if(md$download_mode == "ftp"){
 
-    filenames <- RCurl::getURL(link, ftp.use.epsv = FALSE, ftplistonly = TRUE,
-                               crlf = TRUE)
-    filename<- file_dir<- gsub(link, pattern = "/+$", replacement = "", perl = TRUE) %>% gsub(pattern = ".+/", replacement = "")
+    filename <- file_dir <- gsub(link, pattern = "/+$", replacement = "", perl = TRUE) %>% gsub(pattern = ".+/", replacement = "")
     new_dir <- paste(c(root_path,file_dir), collapse = "/")
-    if(!dir.exists(new_dir)){dir.create(new_dir)}
-    filenames<- strsplit(filenames, "\r*\n")[[1]]
+    if(!dir.exists(new_dir)) dir.create(new_dir)
+
+    if (dataset == "CENSOPernambuco") {
+      filenames <- "PE.zip"
+    } else {
+      filenames <- RCurl::getURL(link, ftp.use.epsv = FALSE, ftplistonly = TRUE, crlf = TRUE)
+      filenames<- strsplit(filenames, "\r*\n")[[1]]
+    }
+
     file_links <- paste(link, filenames, sep = "")
-
     download_success <- rep(FALSE, length(filenames))
-
     dest.files.all = sapply(filenames, function(x) {paste(c(root_path,file_dir, x),collapse = "/")})
 
     for(y in seq_along(filenames)[!download_success]){
-
       dest.files = paste(c(root_path,file_dir, filenames[y]),collapse = "/")
-      print(dest.files)
-      print(file_links[y])
-
       download_success[y] = FALSE
       download.file(file_links[y],destfile = dest.files, mode = "wb")
       download_success[y] = TRUE
