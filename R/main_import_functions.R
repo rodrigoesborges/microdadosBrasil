@@ -263,7 +263,7 @@ read_data_censoescolar_ff <- function(ft, i, vars_subset = NULL, root_path){
 
   # read csv file with ff capabilities
   # some csv files will not be read with first.rows < 2e4...
-  df <- read.csv2.ffdf(file = files[1], header=TRUE, VERBOSE=TRUE, sep=delim, first.rows=200000)
+  df <- read.csv2.ffdf(file = files[1], header=TRUE, VERBOSE=TRUE, sep=delim, first.rows=240000)
 
   # subset vars
   if (!is.null(vars_subset)) df <- df[vars_subset]
