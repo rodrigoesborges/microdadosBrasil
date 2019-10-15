@@ -2,7 +2,7 @@ Package: microdadosBrasil
 Type: Package
 Title: Reads most common Brazilian public microdata (CENSO, PNAD, etc) easy and fast
 Version: 0.0.0.9000
-Date: 2016-05-29
+Date: 2019-05-29
 Authors@R: as.person(c(
     "Lucas Mation <lucas.mation@ipea.gov.br> [aut, cre]",
     "Nicolas Pinto<nicolas.pinto@ipea.gov.br> [ctb]"
