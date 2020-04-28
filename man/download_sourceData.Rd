@@ -4,8 +4,7 @@
 \alias{download_sourceData}
 \title{Download brazilian microdata.}
 \usage{
-download_sourceData(dataset, i, unzip = T, root_path = NULL,
-  replace = FALSE)
+download_sourceData(dataset, i, unzip = T, root_path = NULL, replace = FALSE)
 }
 \arguments{
 \item{dataset}{Standardized name of brazilian public microdadata. See available datasets with get_available_datasets()}
