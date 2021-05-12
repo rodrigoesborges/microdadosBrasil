@@ -59,8 +59,7 @@ download_sourceData <- function(dataset, i, unzip=T , root_path = NULL, replace 
   if(is.na(link)){stop("Can't download dataset, there are no information about the source")}
 
   if(!is.null(root_path)){
-    # if(!file.exists(root_path)){
-    if(!dir.exists(root_path)){
+    if(!dir.exists(root_path)){ # file.exists fails when path has a trailing slash
       stop(paste0("Can't find ",root_path))
     }
   }
@@ -77,6 +76,11 @@ download_sourceData <- function(dataset, i, unzip=T , root_path = NULL, replace 
 
     download_success <- rep(FALSE, length(filenames))
 
+    max_loops  = 20
+    loop_counter = 1
+
+    while(!all(download_success) & loop_counter< max_loops ){
+
     dest.files.all = sapply(filenames, function(x) {paste(c(root_path,file_dir, x),collapse = "/")})
 
     for(y in seq_along(filenames)[!download_success]){
@@ -84,6 +88,15 @@ download_sourceData <- function(dataset, i, unzip=T , root_path = NULL, replace 
       dest.files = paste(c(root_path,file_dir, filenames[y]),collapse = "/")
       print(dest.files)
       print(file_links[y])
+      download_success[y] = FALSE
+      try({
+          download.file(file_links[y],destfile = dest.files, mode = "wb")
+          download_success[y] = TRUE
+
+
+        })
+
+upstream/master
 
       download_success[y] = FALSE
       download.file(file_links[y],destfile = dest.files, mode = "wb")
@@ -92,8 +105,26 @@ download_sourceData <- function(dataset, i, unzip=T , root_path = NULL, replace 
 
     success <- T
 
+        success = F
+        if(loop_counter == max_loops - 1){
+          message(paste0("Downloaded files for period ", i," on the ", loop_counter, "th try were too small. Possible corruption." ))
+
+
+        }else{
+          message(paste0("Downloaded files for period ", i," on the ", loop_counter, "th try were too small, possible corruption, retrying download..." ))
+
+        }
+      }else{
+        success = T
+      }
+    }
+
+
+    loop_counter = loop_counter + 1
+
+
     if(!all(download_success)){ message(paste0("The download of the following files failed:\n"),
-                                        paste(filenames[!download_success], collapse = "\n"))}
+                                       paste(filenames[!download_success], collapse = "\n"))}
 
   }else{
 
@@ -104,17 +135,57 @@ download_sourceData <- function(dataset, i, unzip=T , root_path = NULL, replace 
     print(paste("download mode", md$download_mode))
     print(link)
     print(filename)
-    print(paste("file dir", file_dir))
+    print(file_dir)
 
-    download_status <- download.file(link, destfile = dest.files, mode = "wb")
+
+
+    max_loops  = 4
+    loop_counter = 1
+
+    while(!(success) & loop_counter< max_loops){
+
+    try({ download.file(link,destfile = dest.files, mode = "wb")
+
+      success = TRUE
+
+    })
+
+
+    if(success == T){
+    if(sum(file.info(dest.files)$size) < 100000){
+
+      success = F
+      if(loop_counter == max_loops - 1){
+      message(paste0("Downloaded files for period ", i," on the ", loop_counter, "th try were too small. Possible corruption." ))
+
+
+      }else{
+      message(paste0("Downloaded files for period ", i," on the ", loop_counter, "th try were too small, possible corruption, retrying download..." ))
+
+      }
+    }
+
+      loop_counter = loop_counter + 1
+    }}
+    if (unzip==T & success == T){
+      #Won't use 'archive' in the main download function until its on CRAN
+      #Unzipping main source file:
+      #if(grepl(filename, pattern = "\\.7z")){
+
+       # archive::archive_extract(paste(c(root_path,filename),collapse = "/") , paste(c(root_path,file_dir),collapse = "/"))
+      #}else{
+      unzip(paste(c(root_path,filename),collapse = "/") ,exdir = paste(c(root_path,file_dir),collapse = "/"))
+      #}
+    }
+
+    download_status <- download.file(link, destfile = dest.files, mode = "auto")
     success <- (download_status == 0)
 
     if (unzip==T & success == T) unzip(paste(c(root_path,filename),collapse = "/") ,exdir = paste(c(root_path,file_dir),collapse = "/"))
   }
 
 
-  if (unzip==T & success == T){
-
+    if (unzip==T & success == T){
     ##unzipping the data files (in case not unziped above)
     intern_files<- list.files(paste(c(root_path,file_dir),collapse = "/"), recursive = TRUE,all.files = TRUE, full.names = TRUE)
     zip_files<- intern_files[grepl(pattern = "\\.zip$",x = intern_files)]
@@ -144,7 +215,7 @@ download_sourceData <- function(dataset, i, unzip=T , root_path = NULL, replace 
     size = as.object_size(file.size(paste(c(root_path,filename),collapse = "/"))) %>%
       format(units = "Mb")
   }
-  info.output<- data.frame(name = filename, link = link, success = success, size =  size, stringsAsFactors = F)
+    info.output<- data.frame(name = filename, link = link, success = success, size =  size, stringsAsFactors = F)
 
   return(info.output)
 
