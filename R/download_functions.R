@@ -20,6 +20,8 @@
 #' @export
 download_sourceData <- function(dataset, i, unzip=T , root_path = NULL, replace = FALSE){
 
+
+
   success = FALSE
   size = NA
 
@@ -28,7 +30,7 @@ download_sourceData <- function(dataset, i, unzip=T , root_path = NULL, replace 
   #Test if parameters are valid
 
   if( !(dataset %in% dataset_list ) ) {
-    stop(paste0("Invalid dataset. Must be one of the following: ",paste(dataset_list, collapse=", ")) ) }
+  stop(paste0("Invalid dataset. Must be one of the following: ",paste(dataset_list, collapse=", ")) ) }
 
   metadata <-  read_metadata(dataset)
 
@@ -44,7 +46,7 @@ download_sourceData <- function(dataset, i, unzip=T , root_path = NULL, replace 
                            "$")
 
   if (!replace) {
-    if(any(grepl(pattern = paste0(data_file_names,collapse = "|"), x = list.files(recursive = TRUE, path = ifelse(is.null(root_path), ".", root_path)), ignore.case = TRUE))) {
+    if(any(grepl(pattern = paste0(data_file_names,collapse = "|"), x = list.files(recursive = TRUE, path = ifelse(is.null(root_path), ".", root_path))))) {
       stop(paste0("This data was already downloaded. Check:\n - ",
                   paste(grep(pattern = paste0(data_file_names,collapse = "|"), list.files(recursive = TRUE,path = ifelse(is.null(root_path), ".", root_path), full.names = TRUE), value = T), collapse = "\n - "),
                   ")\n\nIf you want to overwrite the previous files add replace=T to the function call."))
@@ -52,22 +54,26 @@ download_sourceData <- function(dataset, i, unzip=T , root_path = NULL, replace 
     }
   }
 
+
+
+
   md <- metadata[metadata$period== i,]
 
   link <- md$download_path
   data_file_names<- md
   if(is.na(link)){stop("Can't download dataset, there are no information about the source")}
 
+
+
   if(!is.null(root_path)){
     if(!dir.exists(root_path)){ # file.exists fails when path has a trailing slash
       stop(paste0("Can't find ",root_path))
-    }
-  }
+    }}
 
   if(md$download_mode == "ftp"){
 
     filenames <- RCurl::getURL(link, ftp.use.epsv = FALSE, ftplistonly = TRUE,
-                               crlf = TRUE)
+                        crlf = TRUE)
     filename<- file_dir<- gsub(link, pattern = "/+$", replacement = "", perl = TRUE) %>% gsub(pattern = ".+/", replacement = "")
     new_dir <- paste(c(root_path,file_dir), collapse = "/")
     if(!dir.exists(new_dir)){dir.create(new_dir)}
@@ -81,7 +87,7 @@ download_sourceData <- function(dataset, i, unzip=T , root_path = NULL, replace 
 
     while(!all(download_success) & loop_counter< max_loops ){
 
-    dest.files.all = sapply(filenames, function(x) {paste(c(root_path,file_dir, x),collapse = "/")})
+      dest.files.all = sapply(filenames, function(x) {paste(c(root_path,file_dir, x),collapse = "/")})
 
     for(y in seq_along(filenames)[!download_success]){
 
@@ -90,20 +96,16 @@ download_sourceData <- function(dataset, i, unzip=T , root_path = NULL, replace 
       print(file_links[y])
       download_success[y] = FALSE
       try({
-          download.file(file_links[y],destfile = dest.files, mode = "wb")
+          download.file(file_links[y],destfile = dest.files, mode = "auto")
           download_success[y] = TRUE
 
 
         })
 
-upstream/master
 
-      download_success[y] = FALSE
-      download.file(file_links[y],destfile = dest.files, mode = "wb")
-      download_success[y] = TRUE
     }
 
-    success <- T
+      if(sum(file.info(dest.files.all)$size) < 100000){
 
         success = F
         if(loop_counter == max_loops - 1){
@@ -131,8 +133,6 @@ upstream/master
     filename <- link %>% gsub(pattern = ".+/", replacement = "")
     file_dir <- filename %>% gsub( pattern = "(\\.zip)|(\\.7z)|(\\.rar)", replacement = "")
     dest.files <- paste(c(root_path,filename),collapse = "/")
-
-    print(paste("download mode", md$download_mode))
     print(link)
     print(filename)
     print(file_dir)
@@ -178,10 +178,7 @@ upstream/master
       #}
     }
 
-    download_status <- download.file(link, destfile = dest.files, mode = "auto")
-    success <- (download_status == 0)
 
-    if (unzip==T & success == T) unzip(paste(c(root_path,filename),collapse = "/") ,exdir = paste(c(root_path,file_dir),collapse = "/"))
   }
 
 
@@ -191,26 +188,33 @@ upstream/master
     zip_files<- intern_files[grepl(pattern = "\\.zip$",x = intern_files)]
     rar_files<- intern_files[grepl(pattern = "\\.rar$",x = intern_files)]
     r7z_files<- intern_files[grepl(pattern = "\\.7z$",x = intern_files)]
-
+    if(length(r7z_files)>0){message(paste0("\nThere are files in .7z format inside the main folder, please unzip manually or use:\n unzip_all_7z_rar(", root_path, ")"))}
+    if(length(rar_files)>0){message(paste0("\nThere are files in .rar format inside the main folder, please unzip manually or use:\n unzip_all_7z_rar(", root_path, ")"))}
     for(zip_file in zip_files){
       exdir<- zip_file %>% gsub(pattern = "\\.zip", replacement = "")
       unzip(zipfile = zip_file,exdir = exdir )
     }
+    #for(zip_file in r7z_files){
 
-    # check if package "archive" is installed before trying to extract the .rar files.
-    if(("archive" %in% installed.packages()[,1])){
-      for(zip_file in rar_files){
-        exdir<- zip_file %>% gsub(pattern = "\\.rar", replacement = "")
-        archive::archive_extract(zip_file, exdir)
-        cat(paste0("Extracted ", zip_file,"\n"))
-      }
-    }
-  }
+    # exdir<- zip_file %>% gsub(pattern = "\\.7z", replacement = "")
+    # archive::archive_extract(zip_file, exdir)
+
+    #}
+
+    #for(zip_file in rar_files){
+
+    #  exdir<- zip_file %>% gsub(pattern = "\\.rar", replacement = "")
+    #  archive::archive_extract(zip_file, exdir)
+
+    #}
+
+
+}
 
   if(all(file.info(paste(c(root_path,filename),collapse = "/"))$isdir)){
 
     size<- as.object_size(sum(file.info(list.files(paste(c(root_path,filename), collapse = "/"), recursive = TRUE, full.names = T))$size)) %>%
-      format(units = "Mb")
+    format(units = "Mb")
   }else{
     size = as.object_size(file.size(paste(c(root_path,filename),collapse = "/"))) %>%
       format(units = "Mb")
@@ -219,7 +223,7 @@ upstream/master
 
   return(info.output)
 
-}
+    }
 
 
 #' Wrapper for unzipping lots of .rar and .7z files with archive::archive() .
