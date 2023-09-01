@@ -6,7 +6,7 @@ Date: 2019-05-29
 Authors@R: as.person(c(
     "Lucas Mation <lucas.mation@ipea.gov.br> [aut, cre]",
     "Nicolas Pinto<nicolas.pinto@ipea.gov.br> [ctb]",
-    "Rodrigo E. S. Borges<rodrigo.borges@ipe.df.gov.br> [ctb]",
+    "Rodrigo E. S. Borges<rodrigo.borges@ipe.df.gov.br> [ctb]"
     ))
 Description: A set of simple functions to read most commonly used public microdata on Brazil.
     Downloads and reads the main datasets from IBGE, INEP and MTE for
