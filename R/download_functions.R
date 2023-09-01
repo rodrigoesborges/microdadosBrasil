@@ -91,10 +91,11 @@ download_sourceData <- function(dataset, i, unzip=T , root_path = NULL, replace 
         download_success[y] = FALSE
         download.file(file_links[y],destfile = dest.files, mode = "auto")
         download_success[y] = TRUE
+      }
+   }
+	}
 
-	})
-
-    }
+#    }
       if(sum(file.info(dest.files.all)$size) < 100000) {
 
         success = F
@@ -109,14 +110,15 @@ download_sourceData <- function(dataset, i, unzip=T , root_path = NULL, replace 
       }else{
         success = T
       }
-    }
+
 
 
     loop_counter = loop_counter + 1
 
 
     if(!all(download_success)){ message(paste0("The download of the following files failed:\n"),
-                                       paste(filenames[!download_success], collapse = "\n"))}
+                                       paste(filenames[!download_success], collapse = "\n"))
+
     }else{
 
     filename <- link %>% gsub(pattern = ".+/", replacement = "")
@@ -186,12 +188,12 @@ download_sourceData <- function(dataset, i, unzip=T , root_path = NULL, replace 
 
 #   for(zip_file in r7z_files){
 #     exdir <- zip_file %>% gsub(pattern = "\\.7z",replacement = "")
-#     archive::archive_extract(zip_file,exdir)   
+#     archive::archive_extract(zip_file,exdir)
 #   }
     # check if package "archive" is installed before trying to extract the .rar files.
     if(("archive" %in% installed.packages()[,1])){
       for(zip_file in c(rar_files,r7z_files)){
-        exdir<- zip_file %>% gsub("\\.7z,"",gsub(pattern = "\\.rar", replacement = ""))
+        exdir<- zip_file %>% gsub("\\.7z","",gsub(pattern = "\\.rar", replacement = ""))
         archive::archive_extract(zip_file, exdir)
         cat(paste0("Extracted ", zip_file,"\n"))
       }
@@ -212,7 +214,7 @@ download_sourceData <- function(dataset, i, unzip=T , root_path = NULL, replace 
 
 }
 
-
+}
 #' Wrapper for unzipping lots of .rar and .7z files with archive::archive() .
 #'
 #'
