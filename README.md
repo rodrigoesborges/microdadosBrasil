@@ -1,10 +1,8 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-microdadosBrasil
-================
+# microdadosBrasil
 
-work in progress
-----------------
+## work in progress
 
 ### Fork with changes from inribeiro - to revert Censo Demografico restrictions
 
@@ -13,7 +11,7 @@ microdata such as PNAD and Censo Escolar maintained by [Lucas
 Mation](https://github.com/lucasmation/microdadosBrasil). In this fork,
 some functions were modified, e.g., download the Censo Demográfico only
 for Pernambuco (to be reverted), read Censo Escolar with `ff` to support
-very large datasets, among others. \#\#\# NEW:
+very large datasets, among others. \### NEW:
 
 -   Don’t use R? See: [using the package from Stata and
     Python](https://github.com/lucasmation/microdadosBrasil/blob/master/vignettes/Running_from_other_software.Rmd)
@@ -28,8 +26,7 @@ IN near the future:
 
 -   variable name harmonization
 
-Description
------------
+## Description
 
 this package contains functions to read most commonly used Brazilian
 microdata easily and quickly. Importing these microdata can be tedious.
@@ -43,17 +40,21 @@ for .csv data. Therefore reading is reasonably fast.
 
 Currently the package includes import functions for:
 
-| Source | Dataset                 | Import\_function            | Period             | Subdataset                 |
-|:-------|:------------------------|:----------------------------|:-------------------|:---------------------------|
-| IBGE   | PNAD                    | read\_PNAD                  | 1976 to 2015       | domicilios, pessoas        |
-| IBGE   | Pnad Contínua           | read\_PNADContinua          | 2012-1q to 2017-4q | pessoas                    |
-| IBGE   | Censo Demográfico       | read\_CENSO                 | 2000               | domicilios, pessoas        |
-| IBGE   | PME                     | read\_PME                   | 2002.01 to 2015.12 | vinculos                   |
-| IBGE   | POF                     | read\_POF                   | 2008               | several, see details       |
-| INEP   | Censo Escolar           | read\_CensoEscolar          | 1995 to 2014       | escolas, …, see details    |
-| INEP   | Censo da Educ. Superior | read\_CensoEducacaoSuperior | 1995 to 2014       | see details                |
-| MTE    | CAGED                   | read\_CAGED                 | 2009.01 to 2016.05 | vinculos                   |
-| MTE    | RAIS                    | read\_RAIS                  | 1998 to 2014       | estabelecimentos, vinculos |
+    #> Registered S3 method overwritten by 'printr':
+    #>   method                from     
+    #>   knit_print.data.frame rmarkdown
+
+| Source | Dataset                 | Import_function            | Period             | Subdataset                 |
+|:-----|:----------------|:------------------|:-------------|:------------------|
+| IBGE   | PNAD                    | read_PNAD                  | 1976 to 2015       | domicilios, pessoas        |
+| IBGE   | Pnad Contínua           | read_PNADContinua          | 2012-1q to 2017-4q | pessoas                    |
+| IBGE   | Censo Demográfico       | read_CENSO                 | 2000               | domicilios, pessoas        |
+| IBGE   | PME                     | read_PME                   | 2002.01 to 2015.12 | vinculos                   |
+| IBGE   | POF                     | read_POF                   | 2008               | several, see details       |
+| INEP   | Censo Escolar           | read_CensoEscolar          | 1995 to 2014       | escolas, …, see details    |
+| INEP   | Censo da Educ. Superior | read_CensoEducacaoSuperior | 1995 to 2014       | see details                |
+| MTE    | CAGED                   | read_CAGED                 | 2009.01 to 2016.05 | vinculos                   |
+| MTE    | RAIS                    | read_RAIS                  | 1998 to 2014       | estabelecimentos, vinculos |
 
 For the datasets in fwf format, the package includes, internally, a list
 of import dictionaries. These were constructed with the
@@ -67,8 +68,7 @@ that change overtime through a metadata table.It also unifies data that
 comes subdivides by regional subgroups (UF or região) into a single data
 object.
 
-Installation
-------------
+## Installation
 
 ``` r
 install.packages("devtools")
@@ -77,8 +77,7 @@ devtools::install_github("lucasmation/microdadosBrasil")
 library('microdadosBrasil')
 ```
 
-Basic Usage
------------
+## Basic Usage
 
 ``` r
 ##############
@@ -137,8 +136,7 @@ download_sourceData("PME", i = "2012.01")
 d <- read_PME("vinculos", "2012.01")
 ```
 
-Other options
--------------
+## Other options
 
 ### Subsetting datasets
 
@@ -183,8 +181,7 @@ import functions of the package. Use the function
 pnad_dic<- get_import_dictionary(dataset = "PNAD",i = 2014, ft = "pessoas")
 ```
 
-Related efforts
----------------
+## Related efforts
 
 This package is highly influenced by similar efforts, which are great
 time savers, vastly used and often unrecognized:
@@ -211,26 +208,25 @@ time savers, vastly used and often unrecognized:
 -   separates import code from dataset specific metadata, as explained
     bellow.
 
-How the package works
----------------------
+## How the package works
 
 ### Traditional Import Workflow
 
 Nowadays packages are normally provided on-line (or in a physical CD for
 the older IBGE publications) as .zip files with the following structure:
 
-dataset\_year.zip
+dataset_year.zip
 
--   dataset\_year
+-   dataset_year
     -   DICTIONARIES
-        -   import\_dictionary\_subdatasetA.SAS
+        -   import_dictionary_subdatasetA.SAS
     -   DATA
-        -   subdatasetA\_state1.txt
-        -   subdatasetA\_state2.txt
+        -   subdatasetA_state1.txt
+        -   subdatasetA_state2.txt
         -   …
-        -   subdatasetA\_stateN.txt
+        -   subdatasetA_stateN.txt
     -   ADITIONAL DOCUMENTATION
-        -   subdatasetA\_variables\_and\_cathegories\_dictionary.xls
+        -   subdatasetA_variables_and_cathegories_dictionary.xls
 
 Users then normally manually reconstruct the import dictionaries in R by
 hand. Then, using this dictionary, run the import function, pointing to

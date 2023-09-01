@@ -54,9 +54,14 @@ library(printr)
 d
 ```
 
-For the datasets in fwf format, the package includes, internally, a list of import dictionaries. These were constructed with the `import_SASdictionary` function, which users can use to import dictionaries from datasets not included here. Import dictionaries for the datasets included in the package can be accessed with the `get_import_dictionary` function. 
+For the datasets in fwf format, the package includes, internally, a list of import dictionaries. 
+These were constructed with the `import_SASdictionary` function, which users can use to import dictionaries 
+from datasets not included here. Import dictionaries for the datasets included in the package can be accessed 
+with the `get_import_dictionary` function. 
 
-The package also harmonizes folder names, folder structure and  file name that change overtime through a metadata table.It also unifies data that comes subdivides by regional subgroups (UF or região) into a single data object.   
+The package also harmonizes folder names, folder structure and  file name that change overtime through a 
+metadata table.It also unifies data that comes subdivides by regional subgroups (UF or região) into a single 
+data object.   
 
 
 ## Installation
