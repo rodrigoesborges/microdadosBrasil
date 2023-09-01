@@ -64,7 +64,8 @@ download_sourceData <- function(dataset, i, unzip=T , root_path = NULL, replace 
     }}
 
   if(md$download_mode == "ftp"){
-
+    filenames <- RCurl::getURL(link, ftp.use.epsv = FALSE, ftplistonly = TRUE,
+                               crlf = TRUE)
     filename <- file_dir <- gsub(link, pattern = "/+$", replacement = "", perl = TRUE) %>% gsub(pattern = ".+/", replacement = "")
     new_dir <- paste(c(root_path,file_dir), collapse = "/")
     if(!dir.exists(new_dir)) dir.create(new_dir)
@@ -113,9 +114,9 @@ download_sourceData <- function(dataset, i, unzip=T , root_path = NULL, replace 
 
     loop_counter = loop_counter + 1
 
-#}
+
     if(!all(download_success)){ message(paste0("The download of the following files failed:\n"),
-                                       paste(filenames[!download_success], collapse = "\n"))
+                                       paste(filenames[!download_success], collapse = "\n"))}
 
     }else{
 
@@ -129,21 +130,22 @@ download_sourceData <- function(dataset, i, unzip=T , root_path = NULL, replace 
     print(paste("file dir", file_dir))
 
 
+
+    max_loops  = 4
+    loop_counter = 1
+
+    while(!(success) & loop_counter< max_loops){
+
+    try({ download.file(link,destfile = dest.files, mode = "auto")
+
+      success = TRUE
+
+    })
+#    }
 #
-#     max_loops  = 4
-#     loop_counter = 1
 #
-#     while(!(success) & loop_counter< max_loops){
-#
-#     try({ download.file(link,destfile = dest.files, mode = "auto")
-#
-#       success = TRUE
-#
-#     })
-#
-#
-#     if(success == T){
-#     if(sum(file.info(dest.files)$size) < 100000){
+     if(success == T){
+     if(sum(file.info(dest.files)$size) < 100000){
 #
 #       success = F
       if(loop_counter == max_loops - 1){
@@ -157,7 +159,7 @@ download_sourceData <- function(dataset, i, unzip=T , root_path = NULL, replace 
     }
 
       loop_counter = loop_counter + 1
-    }
+    }}
 
     if (unzip==T & success == T){
       #Won't use 'archive' in the main download function until its on CRAN
@@ -170,7 +172,7 @@ download_sourceData <- function(dataset, i, unzip=T , root_path = NULL, replace 
       #}
     }
 
-
+}
   if (unzip==T & success == T){
 
 
