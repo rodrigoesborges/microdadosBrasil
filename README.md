@@ -44,17 +44,18 @@ Currently the package includes import functions for:
     #>   method                from     
     #>   knit_print.data.frame rmarkdown
 
-| Source | Dataset                 | Import_function            | Period             | Subdataset                 |
-|:-----|:----------------|:------------------|:-------------|:------------------|
-| IBGE   | PNAD                    | read_PNAD                  | 1976 to 2015       | domicilios, pessoas        |
-| IBGE   | Pnad Contínua           | read_PNADContinua          | 2012-1q to 2017-4q | pessoas                    |
-| IBGE   | Censo Demográfico       | read_CENSO                 | 2000               | domicilios, pessoas        |
-| IBGE   | PME                     | read_PME                   | 2002.01 to 2015.12 | vinculos                   |
-| IBGE   | POF                     | read_POF                   | 2008               | several, see details       |
-| INEP   | Censo Escolar           | read_CensoEscolar          | 1995 to 2014       | escolas, …, see details    |
-| INEP   | Censo da Educ. Superior | read_CensoEducacaoSuperior | 1995 to 2014       | see details                |
-| MTE    | CAGED                   | read_CAGED                 | 2009.01 to 2016.05 | vinculos                   |
-| MTE    | RAIS                    | read_RAIS                  | 1998 to 2014       | estabelecimentos, vinculos |
+| Source | Dataset                    | Import_function            | Period             | Subdataset                 |
+|:-----|:-----------------|:-----------------|:------------|:-----------------|
+| IBGE   | PNAD                       | read_PNAD                  | 1976 to 2015       | domicilios, pessoas        |
+| IBGE   | Pnad Contínua              | read_PNADContinua          | 2012-1q to 2017-4q | pessoas                    |
+| IBGE   | Censo Demográfico          | read_CENSO                 | 2000               | domicilios, pessoas        |
+| IBGE   | PME                        | read_PME                   | 2002.01 to 2015.12 | vinculos                   |
+| IBGE   | POF                        | read_POF                   | 2008               | several, see details       |
+| INEP   | Censo Escolar              | read_CensoEscolar          | 1995 to 2019       | escolas, …, see details    |
+| INEP   | Censo da Educ. Superior    | read_CensoEducacaoSuperior | 1995 to 2022       | see details                |
+| INEP   | Censo Escolar Formato 2023 | read_CensoEscolar_F2023    | 2006 to 2023       | see details                |
+| MTE    | CAGED                      | read_CAGED                 | 2009.01 to 2023.05 | vinculos                   |
+| MTE    | RAIS                       | read_RAIS                  | 1998 to 2023       | estabelecimentos, vinculos |
 
 For the datasets in fwf format, the package includes, internally, a list
 of import dictionaries. These were constructed with the
@@ -73,7 +74,7 @@ object.
 ``` r
 install.packages("devtools")
 install.packages("stringi") 
-devtools::install_github("lucasmation/microdadosBrasil")
+devtools::install_github("rodrigoesborges/microdadosBrasil")
 library('microdadosBrasil')
 ```
 

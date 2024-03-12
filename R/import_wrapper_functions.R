@@ -45,6 +45,21 @@ read_CensoEscolar <- function(ft,i,harmonize_varnames=F,root_path=NULL, file = N
 
 }
 
+read_CensoEscolar_F2023 <- function(ft,i,harmonize_varnames=F,root_path=NULL, file = NULL, vars_subset = NULL, nrows = -1L, source_file_mark = F){
+
+
+  #selecting dictionaries
+  #data_path <- paste0(metadata[metadata$period==i,'path'],'/',metadata[metadata$period==i,'data_folder'])
+  #Variable names hamonization
+  if (harmonize_varnames==T) {
+    var_translator <- read_var_translator('CensoEscolar_F2023','escola')
+    read_data("CensoEscolar_F2023", ft, i, var_translator = var_translator, root_path = root_path, file = file, vars_subset = vars_subset, nrows = nrows, source_file_mark = source_file_mark)
+  } else {
+    read_data(dataset = "CensoEscolar_F2023",ft, i,root_path = root_path, file = file, vars_subset = vars_subset, nrows = nrows, source_file_mark = source_file_mark)
+  }
+
+}
+
 
 
 
