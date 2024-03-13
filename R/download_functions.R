@@ -90,7 +90,7 @@ download_sourceData <- function(dataset, i, unzip=T , root_path = NULL, replace 
 
         dest.files = paste(c(root_path,file_dir, filenames[y]),collapse = "/")
         download_success[y] = FALSE
-        try({download.file(file_links[y],destfile = dest.files, mode = "auto")
+        try({download.file(file_links[y],destfile = dest.files)
         download_success[y] = TRUE
       })
 
