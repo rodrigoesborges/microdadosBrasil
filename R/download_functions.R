@@ -136,7 +136,7 @@ download_sourceData <- function(dataset, i, unzip=T , root_path = NULL, replace 
 
     while(!(success) & loop_counter< max_loops){
 
-    try({ download.file(link,destfile = dest.files, mode = "auto")
+    try({ download.file(link,destfile = dest.files)
 
       success = TRUE
 
