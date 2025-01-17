@@ -4,14 +4,12 @@
 
 ## work in progress
 
-### Fork with changes from inribeiro - to revert Censo Demografico restrictions
 
 `microdadosBrasil` is originally a toolset to read public brazilian
 microdata such as PNAD and Censo Escolar maintained by [Lucas
 Mation](https://github.com/lucasmation/microdadosBrasil). In this fork,
-some functions were modified, e.g., download the Censo Demográfico only
-for Pernambuco (to be reverted), read Censo Escolar with `ff` to support
-very large datasets, among others. \### NEW:
+some functions were modified, e.g., read Censo Escolar with `ff` to support
+very large datasets (from @lnribeiro fork), among others. \### NEW:
 
 -   Don’t use R? See: [using the package from Stata and
     Python](https://github.com/lucasmation/microdadosBrasil/blob/master/vignettes/Running_from_other_software.Rmd)
