@@ -127,7 +127,7 @@ read_RAIS<- function(ft, i,root_path = NULL,file = NULL, vars_subset = NULL,UF =
   if(!is.null(UF)){
     UF <- paste0("(",paste(UF, collapse = "|"),")")
     metadata$ft_vinculos <- metadata$ft_vinculos %>%
-      gsub(pattern = "[A-Z]{2}", replacement = UF, fixed = TRUE)}
+      gsub(pattern = "\\[A-Z.*}", replacement = UF, fixed = F)}
 
 
   data <- read_data(dataset = "RAIS",ft = ft, i = i, metadata = metadata, root_path = root_path,file = file, vars_subset = vars_subset, nrows = nrows, source_file_mark = source_file_mark)
