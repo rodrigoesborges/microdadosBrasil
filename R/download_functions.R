@@ -168,6 +168,8 @@ download_sourceData <- function(dataset, i, unzip=T , root_path = NULL, replace 
       loop_counter = loop_counter + 1
     }}
     if (unzip==T & success == T){
+      #Won't use 'archive' in the main download function until its on CRAN
+      #Unzipping main source file:
       if(grepl(filename, pattern = "\\.7z")){
 
         archive::archive_extract(paste(c(root_path,filename),collapse = "/") , paste(c(root_path,file_dir),collapse = "/"))
@@ -177,11 +179,8 @@ download_sourceData <- function(dataset, i, unzip=T , root_path = NULL, replace 
     }
 
 
-  }
 
-
-
-
+}
   # if (unzip==T & success == T){
   #
   # #

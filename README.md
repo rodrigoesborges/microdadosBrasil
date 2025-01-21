@@ -1,60 +1,82 @@
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-microdadosBrasil
-================
 
-work in progress
-----------------
+# microdadosBrasil
 
-### NEW:
+## work in progress
 
--   Don't use R? See: [using the package from Stata and Python](https://github.com/lucasmation/microdadosBrasil/blob/master/vignettes/Running_from_other_software.Rmd)
+
+`microdadosBrasil` is originally a toolset to read public brazilian
+microdata such as PNAD and Censo Escolar maintained by [Lucas
+Mation](https://github.com/lucasmation/microdadosBrasil). In this fork,
+some functions were modified, e.g., read Censo Escolar with `ff` to support
+very large datasets (from @lnribeiro fork), among others. \### NEW:
+
+-   Don’t use R? See: [using the package from Stata and
+    Python](https://github.com/lucasmation/microdadosBrasil/blob/master/vignettes/Running_from_other_software.Rmd)
 
 ### COMMING SOON:
 
--   Vignettes and Portuguese documentation
+-   vignettes and Portuguese documentation
 -   Censo 1991, PNADs before 2001
 -   Support for data not fitting into memory.
 
-In the near future:
+IN near the future:
 
--   Variable name harmonization
+-   variable name harmonization
 
-Description
------------
+## Description
 
-This package contains functions to read the most commonly used Brazilian microdata easily and quickly, given that importing these microdata can be tedious. Most data is provided in fixed width files (fwf) with import instructions only for SAS and SPSS. The Data sometimes comes subdivided into serveral files, by state or macro regions. Also, it is common for file and variable names of the same dataset to vary overtime. `microdadoBrasil` handles all these idiosyncrasies for you. In the background the package is running `readr` for fwf data and `data.table` for .csv data. Therefore reading is reasonably fast.
+this package contains functions to read most commonly used Brazilian
+microdata easily and quickly. Importing these microdata can be tedious.
+Most data is provided in fixed width files (fwf) with import
+instructions only for SAS and SPSS. The Data sometimes comes subdivided
+into serveral files, by state or macro regions. Also, it is common for
+file and variable names of the same dataset to vary overtime.
+`microdadoBrasil` handles all these idiosyncrasies for you. In the
+background the package is running `readr` for fwf data and `data.table`
+for .csv data. Therefore reading is reasonably fast.
 
 Currently the package includes import functions for:
 
-    #> Warning: package 'printr' was built under R version 3.4.4
+    #> Registered S3 method overwritten by 'printr':
+    #>   method                from     
+    #>   knit_print.data.frame rmarkdown
 
-| Source | Dataset                 | Import\_function            | Period             | Subdataset                 |
-|:-------|:------------------------|:----------------------------|:-------------------|:---------------------------|
-| IBGE   | PNAD                    | read\_PNAD                  | 1976 to 2015       | domicilios, pessoas        |
-| IBGE   | Pnad Contínua           | read\_PNADContinua          | 2012-1q to 2017-4q | pessoas                    |
-| IBGE   | Censo Demográfico       | read\_CENSO                 | 2000 and 2010      | domicilios, pessoas        |
-| IBGE   | PME                     | read\_PME                   | 2002.01 to 2015.12 | vinculos                   |
-| IBGE   | POF                     | read\_POF                   | 2008               | several, see details       |
-| INEP   | Censo Escolar           | read\_CensoEscolar          | 1995 to 2014       | escolas, ..., see details  |
-| INEP   | Censo da Educ. Superior | read\_CensoEducacaoSuperior | 1995 to 2014       | see details                |
-| MTE    | CAGED                   | read\_CAGED                 | 2009.01 to 2016.05 | vinculos                   |
-| MTE    | RAIS                    | read\_RAIS                  | 1998 to 2014       | estabelecimentos, vinculos |
+| Source | Dataset                    | Import_function            | Period             | Subdataset                 |
+|:-----|:-----------------|:-----------------|:------------|:-----------------|
+| IBGE   | PNAD                       | read_PNAD                  | 1976 to 2015       | domicilios, pessoas        |
+| IBGE   | Pnad Contínua              | read_PNADContinua          | 2012-1q to 2017-4q | pessoas                    |
+| IBGE   | Censo Demográfico          | read_CENSO                 | 2000               | domicilios, pessoas        |
+| IBGE   | PME                        | read_PME                   | 2002.01 to 2015.12 | vinculos                   |
+| IBGE   | POF                        | read_POF                   | 2008               | several, see details       |
+| INEP   | Censo Escolar              | read_CensoEscolar          | 1995 to 2019       | escolas, …, see details    |
+| INEP   | Censo da Educ. Superior    | read_CensoEducacaoSuperior | 1995 to 2022       | see details                |
+| INEP   | Censo Escolar Formato 2023 | read_CensoEscolar_F2023    | 2006 to 2023       | see details                |
+| MTE    | CAGED                      | read_CAGED                 | 2009.01 to 2023.05 | vinculos                   |
+| MTE    | RAIS                       | read_RAIS                  | 1998 to 2023       | estabelecimentos, vinculos |
 
-For the datasets in fwf format, the package includes, internally, a list of import dictionaries. These were constructed with the `import_SASdictionary` function, which users can use to import dictionaries from datasets not included here. Import dictionaries for the datasets included in the package can be accessed with the `get_import_dictionary` function.
+For the datasets in fwf format, the package includes, internally, a list
+of import dictionaries. These were constructed with the
+`import_SASdictionary` function, which users can use to import
+dictionaries from datasets not included here. Import dictionaries for
+the datasets included in the package can be accessed with the
+`get_import_dictionary` function.
 
-The package also harmonizes folder names, folder structure and file name that change overtime through a metadata table. It also unifies data that comes subdivides by regional subgroups (UF or região) into a single data object.
+The package also harmonizes folder names, folder structure and file name
+that change overtime through a metadata table.It also unifies data that
+comes subdivides by regional subgroups (UF or região) into a single data
+object.
 
-Installation
-------------
+## Installation
 
 ``` r
 install.packages("devtools")
-devtools::install_github("lucasmation/microdadosBrasil")
+install.packages("stringi") 
+devtools::install_github("rodrigoesborges/microdadosBrasil")
 library('microdadosBrasil')
 ```
 
-Basic Usage
------------
+## Basic Usage
 
 ``` r
 ##############
@@ -113,14 +135,16 @@ download_sourceData("PME", i = "2012.01")
 d <- read_PME("vinculos", "2012.01")
 ```
 
-Other options
--------------
+## Other options
 
 ### Subsetting datasets
 
-To read only a selected subset of the data, use the argument `vars_subset`, the default is `vars_subset = NULL`, this would result in no subseting.
+To read only a selected subset of the data, use the argument
+`vars_subset`, the default is `vars_subset = NULL`, this would result in
+no subseting.
 
-Example, To read only sex and *percapita* income variable of PNAD 2014, type:
+Example, To read only sex and *percapita* income variable of PNAD 2014,
+type:
 
 ``` r
 
@@ -130,13 +154,15 @@ d<- read_PNAD("pessoas",i = 2014, root_path = path.expand("~/Datasets/PNAD"),
 
 ### Ignore metadata and read the dataset directly from selected file
 
-If for some reason you renamed a file or folder, our metadata won't work for you and you will need to use the argument `file` to point to which file is to be imported.
+If for some reason you renamed a file or folder, our metadata won’t work
+for you and you will need to use the argument `file` to point wich file
+is to be imported.
 
 In this situation, the command would look like this:
 
 ``` r
 
-d <- read_PNAD("pessoas",i = 2014, file = path.expand("~/Datasets/PNAD/pnad_pes.txt"))
+d<- read_PNAD("pessoas",i = 2014, file = path.expand("~/Datasets/PNAD/pnad_pes.txt"))
 ```
 
 In this case you will also receive a warning:
@@ -145,50 +171,69 @@ In this case you will also receive a warning:
 
 ### Get import dictionaries
 
-If you only need the import dictionaries and don't want to use the import functions of the package. Use the function `get_import_dictionary`
+If you only need the import dictionaries and don’t want to use the
+import functions of the package. Use the function
+`get_import_dictionary`
 
 ``` r
 
 pnad_dic<- get_import_dictionary(dataset = "PNAD",i = 2014, ft = "pessoas")
 ```
 
-Related efforts
----------------
+## Related efforts
 
-This package is highly influenced by similar efforts, which are great time savers, vastly used and often unrecognized:
+This package is highly influenced by similar efforts, which are great
+time savers, vastly used and often unrecognized:
 
--   Anthony Damico's [scripts to read most IBGE surveys](http://www.asdfree.com/). Great if you your data does not fit into memory and you want speed when working with complex survey design data.
--   [Data Zoom](http://www.econ.puc-rio.br/datazoom/) by Gustavo Gonzaga, Cláudio Ferraz and Juliano Assunção. Similar ease of use and harmonization of Brazilian microdada for Stata.
--   [dicionariosIBGE](https://cran.r-project.org/web/packages/dicionariosIBGE/index.html), by Alexandre Rademaker. A set of data.frames containing the information from SAS import dictionaries for IBGE datasets.
--   [IPUMS](https://international.ipums.org/international/). Harmonization of Census data from several countries, including Brasil. Import functions for R, Stata, SAS and SPSS.
+-   Anthony Damico’s [scripts to read most IBGE
+    surveys](http://www.asdfree.com/). Great if you your data does not
+    fit into memory and you want speed when working with complex survey
+    design data.
+-   [Data Zoom](http://www.econ.puc-rio.br/datazoom/) by Gustavo
+    Gonzaga, Cláudio Ferraz and Juliano Assunção. Similar ease of use
+    and harmonization of Brazilian microdada for Stata.
+-   [dicionariosIBGE](https://cran.r-project.org/web/packages/dicionariosIBGE/index.html),
+    by Alexandre Rademaker. A set of data.frames containing the
+    information from SAS import dictionaries for IBGE datasets.
+-   [IPUMS](https://international.ipums.org/international/).
+    Harmonization of Census data from several countries, including
+    Brasil. Import functions for R, Stata, SAS and SPSS.
 
 `microdadosBrasil` differs from those packages in that it:
 
 -   updates import functions to more recent years
--   includes non-IBGE data, such as INEP Education Census and MTE RAIS (de-identified)
--   separates import code from dataset specific metadata, as explained below.
+-   includes non-IBGE data, such as INEP Education Census and MTE RAIS
+    (de-identified)
+-   separates import code from dataset specific metadata, as explained
+    bellow.
 
-How the package works
----------------------
+## How the package works
 
 ### Traditional Import Workflow
 
-Nowadays packages are normally provided on-line (or in a physical CD for the older IBGE publications) as .zip files with the following structure:
+Nowadays packages are normally provided on-line (or in a physical CD for
+the older IBGE publications) as .zip files with the following structure:
 
-dataset\_year.zip
+dataset_year.zip
 
--   dataset\_year
+-   dataset_year
     -   DICTIONARIES
-        -   import\_dictionary\_subdatasetA.SAS
+        -   import_dictionary_subdatasetA.SAS
     -   DATA
-        -   subdatasetA\_state1.txt
-        -   subdatasetA\_state2.txt
-        -   ...
-        -   subdatasetA\_stateN.txt
+        -   subdatasetA_state1.txt
+        -   subdatasetA_state2.txt
+        -   …
+        -   subdatasetA_stateN.txt
     -   ADITIONAL DOCUMENTATION
-        -   subdatasetA\_variables\_and\_cathegories\_dictionary.xls
+        -   subdatasetA_variables_and_cathegories_dictionary.xls
 
-Users then normally manually reconstruct the import dictionaries in R by hand. Then, using this dictionary, run the import function, pointing to the DATA folder. Larger datasets (such as CENSUS or RAIS) come subdivided by state (or region), so the function must be repeated for all states. Then if the user needs more than one year of the dataset, the user repeats all the above, adjuting for changes fine and folder names.
+Users then normally manually reconstruct the import dictionaries in R by
+hand. Then, using this dictionary, run the import function, pointing to
+the DATA folder. Larger datasets (such as CENSUS or RAIS) come
+subdivided by state (or region), so the function must be repeated for
+all states. Then if the user needs more than one year of the dataset,
+the user repeats all the above, adjuting for changes fine and folder
+names.
 
 ### microdadosBrasil aproach
 
@@ -196,6 +241,13 @@ Users then normally manually reconstruct the import dictionaries in R by hand. T
 
 #### Design principles
 
-The main design principle was separating details of each dataset in each year - such as folder structure, data files and import dictionaries - from the original data and placing these into metadata tables (saved as csv files at the `extdata` folder). The elements in these tables, along with the list of import dictionaries extracted from the SAS import instructions from the data provider, serve as parameters to import a dataset for a specific year. This separation of dataset specific details from the actual code makes code shorter and easier to extend to new packages.
+The main design principle was separating details of each dataset in each
+year - such as folder structure, data files and import dictionaries of
+the of original data - into metadata tables (saved as csv files at the
+`extdata` folder). The elements in these tables, along with list of
+import dictionaries extracted from the SAS import instructions from the
+data provider, serve as parameters to import a dataset for a specific
+year. This separation of dataset specific details from the actual code
+makes code short and easier to extend to new packages.
 
 ergonomics over speed (develop)

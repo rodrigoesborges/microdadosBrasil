@@ -4,9 +4,18 @@
 \alias{read_data}
 \title{Reads files (fwf or csv).}
 \usage{
-read_data(dataset, ft, i, metadata = NULL, var_translator = NULL,
-  root_path = NULL, file = NULL, vars_subset = NULL, nrows = -1L,
-  source_file_mark = F)
+read_data(
+  dataset,
+  ft,
+  i,
+  metadata = NULL,
+  var_translator = NULL,
+  root_path = NULL,
+  file = NULL,
+  vars_subset = NULL,
+  nrows = -1L,
+  source_file_mark = F
+)
 }
 \arguments{
 \item{dataset}{.}

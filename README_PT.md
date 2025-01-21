@@ -1,59 +1,83 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-microdadosBrasil
-================
 
-Trabalho em andamento
----------------------
+# microdadosBrasil
+
+## Trabalho em andamento
 
 ### NOVIDADES:
 
--   Censo 2010
--   RAIS
--   CAGED
--   PME
+- Censo 2010
 
--   Não usa R? Veja: [using the package from Stata and Python](https://github.com/lucasmation/microdadosBrasil/blob/master/vignettes/Running_from_other_software.Rmd)
+- RAIS
+
+- CAGED
+
+- PME
+
+- Não usa R? Veja: [using the package from Stata and
+  Python](https://github.com/lucasmation/microdadosBrasil/blob/master/vignettes/Running_from_other_software.Rmd)
 
 ### EM BREVE:
 
--   Suporte para leitura de dados fora da memória RAM
--   Harmonização do nome de variáveis ao longo dos anos
+- Suporte para leitura de dados fora da memória RAM
+- Harmonização do nome de variáveis ao longo dos anos
 
-DESCRIÇÃO
----------
+## DESCRIÇÃO
 
-Esse pacote disponibiliza funções para importar as bases mais comuns de microdados brasileiros. Importar estes microdados pode ser tedioso. A maior parte dos dados é disponibilizada em arquivos do tipo txt colunado (fixed width files, fwf) e, geralmente, contém scripts de importação somente para SAS e SPSS. Os dados algumas vezes vem subdivididos em muitos arquivos, por UF ou Região. Além disso é comum que nomes de arquivos e de variáveis de certa base de dados variem ao longo do tempo. `microdadoBrasil` cuida desses detalhes pra você. Internamente o pacote está rodando `readr` para arquivos fwf e `data.table` aquivos separados por delimitadores (csv). Assim, a importação é rápida.
+Esse pacote disponibiliza funções para importar as bases mais comuns de
+microdados brasileiros. Importar estes microdados pode ser tedioso. A
+maior parte dos dados é disponibilizada em arquivos do tipo txt colunado
+(fixed width files, fwf) e, geralmente, contém scripts de importação
+somente para SAS e SPSS. Os dados algumas vezes vem subdivididos em
+muitos arquivos, por UF ou Região. Além disso é comum que nomes de
+arquivos e de variáveis de certa base de dados variem ao longo do tempo.
+`microdadoBrasil` cuida desses detalhes pra você. Internamente o pacote
+está rodando `readr` para arquivos fwf e `data.table` aquivos separados
+por delimitadores (csv). Assim, a importação é rápida.
 
-Atualmente, o pacote inclui funções de importação para as seguintes bases de dados:
+Atualmente, o pacote inclui funções de importação para as seguintes
+bases de dados:
 
-| Fonte | Dataset                 | Função                      | Período            | Subdataset                 |
-|:------|:------------------------|:----------------------------|:-------------------|:---------------------------|
-| IBGE  | PNAD                    | read\_PNAD                  | 2001 to 2014       | domicilios, pessoas        |
-| IBGE  | Censo Demográfico       | read\_CENSO                 | 2000               | domicilios, pessoas        |
-| IBGE  | PME                     | read\_PME                   | 2002.01 to 2015.12 | vinculos                   |
-| IBGE  | POF                     | read\_POF                   | 2008               | several, ver detalhes      |
-| INEP  | Censo Escolar           | read\_CensoEscolar          | 1995 to 2014       | escolas, ..., ver detalhes |
-| INEP  | Censo da Educ. Superior | read\_CensoEducacaoSuperior | 1995 to 2014       | ver detalhes               |
-| MTE   | CAGED                   | read\_CAGED                 | 2009.01 to 2016.05 | vinculos                   |
-| MTE   | RAIS                    | read\_RAIS                  | 1998 to 2014       | estabelecimentos, vinculos |
+    #> Registered S3 method overwritten by 'printr':
+    #>   method                from     
+    #>   knit_print.data.frame rmarkdown
 
-Para os dados em formato fwf, o pacote inclui, internamente, dicionários de importação. Esses dicionários foram criados com a função `import_SASdictionary()`, que pode ser utilizado pelo usuário para construir, a partir de um dicionário SAS, dicionários não incluídos no pacote. Dicionário incluídos no pacote podem ser acessados com a função `get_import_dictionary`.
+| Fonte | Dataset                    | Função                     | Período           | Subdataset                 |
+|:------|:---------------------------|:---------------------------|:------------------|:---------------------------|
+| IBGE  | PNAD                       | read_PNAD                  | 1976 a 2015       | domicilios, pessoas        |
+| IBGE  | Pnad Contínua              | read_PNADContinua          | 2012-1q a 2017-4q | pessoas                    |
+| IBGE  | Censo Demográfico          | read_CENSO                 | 2000              | domicilios, pessoas        |
+| IBGE  | PME                        | read_PME                   | 2002.01 a 2015.12 | vinculos                   |
+| IBGE  | POF                        | read_POF                   | 2008              | vários, ver detalhes       |
+| INEP  | Censo Escolar              | read_CensoEscolar          | 1995 a 2019       | escolas, …, ver detalhes   |
+| INEP  | Censo da Educ. Superior    | read_CensoEducacaoSuperior | 1995 a 2022       | ver detalhes               |
+| INEP  | Censo Escolar Formato 2023 | read_CensoEscolar_F2023    | 2006 a 2023       | ver detalhes               |
+| MTE   | CAGED                      | read_CAGED                 | 2009.01 a 2023.05 | vinculos                   |
+| MTE   | RAIS                       | read_RAIS                  | 1998 a 2023       | estabelecimentos, vinculos |
 
-O pacote também harmoniza nomes de arquivos e a estrutura das pastas ao longo tempo, através de uma tabela de metadados, tornando possível a importação de bases de dados que usualmente vem dividadas em subgroupos regionais (por UF ou região) em um único objeto.
+Para os dados em formato fwf, o pacote inclui, internamente, dicionários
+de importação. Esses dicionários foram criados com a função
+`import_SASdictionary()`, que pode ser utilizado pelo usuário para
+construir, a partir de um dicionário SAS, dicionários não incluídos no
+pacote. Dicionário incluídos no pacote podem ser acessados com a função
+`get_import_dictionary`.
 
-INSTALAÇÃO
-----------
+O pacote também harmoniza nomes de arquivos e a estrutura das pastas ao
+longo tempo, através de uma tabela de metadados, tornando possível a
+importação de bases de dados que usualmente vem dividadas em subgroupos
+regionais (por UF ou região) em um único objeto.
+
+## INSTALAÇÃO
 
 ``` r
 install.packages("devtools")
 install.packages("stringi") 
-devtools::install_github("lucasmation/microdadosBrasil")
+devtools::install_github("rodrigoesborges/microdadosBrasil")
 library('microdadosBrasil')
 ```
 
-UTILIZAÇÃO
-----------
+## UTILIZAÇÃO
 
 ``` r
 # Censo Demográfico 2000
@@ -92,24 +116,44 @@ download_sourceData("PME", i = "2012.01")
 d <- read_PME("vinculos", "2012.01")
 ```
 
-ESFORÇOS RELACIONADOS
----------------------
+## ESFORÇOS RELACIONADOS
 
-Esse pacote foi altamente influenciado por esforços similares, que são grande poupadores de tempo, muito utilizados e, algumas vezes, não reconhecidos:
+Esse pacote foi altamente influenciado por esforços similares, que são
+grande poupadores de tempo, muito utilizados e, algumas vezes, não
+reconhecidos:
 
--   [Scripts para ler a maioria das pesquisas do IBGE](http://www.asdfree.com/) de Anthony Damico. Excelente se seus dados não cabem na memória RAM e você quer velociadade para trabalhar com dados de amostras complexas.
--   [Data Zoom](http://www.econ.puc-rio.br/datazoom/) por Gustavo Gonzaga, Cláudio Ferraz e Juliano Assunção. Esforço de simplificação para o software Stata. Além da importação, harmoniza nomes das variáveis.
--   [dicionariosIBGE](https://cran.r-project.org/web/packages/dicionariosIBGE/index.html), por Alexandre Rademaker. Conjunto de data.frames contendo a informação dos dicionários de importação do SAS. .
--   [IPUMS](https://international.ipums.org/international/). Harmonização de dados microdados de CENSO de vários países, incluindo o Brasil. Funções de importação para R, Stata, SAS e SPSS.
+- [Scripts para ler a maioria das pesquisas do
+  IBGE](http://www.asdfree.com/) de Anthony Damico. Excelente se seus
+  dados não cabem na memória RAM e você quer velociadade para trabalhar
+  com dados de amostras complexas.
+- [Data Zoom](http://www.econ.puc-rio.br/datazoom/) por Gustavo Gonzaga,
+  Cláudio Ferraz e Juliano Assunção. Esforço de simplificação para o
+  software Stata. Além da importação, harmoniza nomes das variáveis.  
+- [dicionariosIBGE](https://cran.r-project.org/web/packages/dicionariosIBGE/index.html),
+  por Alexandre Rademaker. Conjunto de data.frames contendo a informação
+  dos dicionários de importação do SAS. .
+- [IPUMS](https://international.ipums.org/international/). Harmonização
+  de dados microdados de CENSO de vários países, incluindo o Brasil.
+  Funções de importação para R, Stata, SAS e SPSS.
 
 `microdadosBrasil` Se diferencia destes pacotes por:
 
--   Trazer opções de importação para períodos mais recentes
--   Incluir dados de outras fontes, além do IBGE, como Censo Escolar (do INEP) e a RAIS (do MTE).
--   Separar código pra importação e os metadados específicos de cada base de dados, como explicado abaixo:
+- Trazer opções de importação para períodos mais recentes
+- Incluir dados de outras fontes, além do IBGE, como Censo Escolar (do
+  INEP) e a RAIS (do MTE).
+- Separar código pra importação e os metadados específicos de cada base
+  de dados, como explicado abaixo:
 
 #### Princípios de concepção do pacote
 
-O principal princípio utilizado na construção do pacote foi separar os detalhes de cada base de dados, como a estrutura de pastas e nome de arquivos em tabelas de metadados(salvos como arquivos .csv na pasta `extdata`). O conteúdo dessas tabelas, assim como uma lista contendo os dicionários de importação extraídos dos dicionários oficiais em formato SAS, seve como parâmetro para a importação dos microdados para cada ano. Essa separação entre detalhes específicos de cada base de dados e código torna o código mais simples e generalizável, facilitando a extensão para novas base de dados.
+O principal princípio utilizado na construção do pacote foi separar os
+detalhes de cada base de dados, como a estrutura de pastas e nome de
+arquivos em tabelas de metadados(salvos como arquivos .csv na pasta
+`extdata`). O conteúdo dessas tabelas, assim como uma lista contendo os
+dicionários de importação extraídos dos dicionários oficiais em formato
+SAS, seve como parâmetro para a importação dos microdados para cada ano.
+Essa separação entre detalhes específicos de cada base de dados e código
+torna o código mais simples e generalizável, facilitando a extensão para
+novas base de dados.
 
 ergonomics over speed (develop)
