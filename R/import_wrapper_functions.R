@@ -146,6 +146,16 @@ read_CAGED<- function(ft,i,root_path = NULL,file = NULL, vars_subset = NULL, nro
   return(data)
 }
 
+#' @rdname read_dataset
+#' @export
+
+read_NOVOCAGED<- function(ft,i,root_path = NULL,file = NULL, vars_subset = NULL, nrows = -1L, source_file_mark = F){
+
+
+  data<- read_data(dataset = "NOVOCAGED",ft = ft, i = i, root_path = root_path, file = file, vars_subset = vars_subset, nrows = nrows, source_file_mark = source_file_mark)
+
+  return(data)
+}
 
 
 
