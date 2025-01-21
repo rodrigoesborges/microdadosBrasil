@@ -9,6 +9,7 @@
 \alias{read_CENSO}
 \alias{read_RAIS}
 \alias{read_CAGED}
+\alias{read_NOVOCAGED}
 \alias{read_PNAD}
 \alias{read_PME}
 \alias{read_POF}
@@ -81,6 +82,16 @@ read_RAIS(
 )
 
 read_CAGED(
+  ft,
+  i,
+  root_path = NULL,
+  file = NULL,
+  vars_subset = NULL,
+  nrows = -1L,
+  source_file_mark = F
+)
+
+read_NOVOCAGED(
   ft,
   i,
   root_path = NULL,
