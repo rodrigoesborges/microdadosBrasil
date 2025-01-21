@@ -8,6 +8,7 @@
 \alias{read_CENSO}
 \alias{read_RAIS}
 \alias{read_CAGED}
+\alias{read_NOVOCAGED}
 \alias{read_PNAD}
 \alias{read_PME}
 \alias{read_POF}
@@ -15,39 +16,128 @@
 \alias{read_PNS}
 \title{Functions to read most common Brazillian dataset}
 \usage{
-read_CensoEscolar(ft, i, harmonize_varnames = F, root_path = NULL,
-  file = NULL, vars_subset = NULL, nrows = -1L,
-  source_file_mark = F)
+read_CensoEscolar(
+  ft,
+  i,
+  harmonize_varnames = F,
+  root_path = NULL,
+  file = NULL,
+  vars_subset = NULL,
+  nrows = -1L,
+  source_file_mark = F
+)
 
-read_CensoEducacaoSuperior(ft, i, root_path = NULL, file = NULL,
-  vars_subset = NULL, nrows = -1L, source_file_mark = F)
+read_CensoEducacaoSuperior(
+  ft,
+  i,
+  root_path = NULL,
+  file = NULL,
+  vars_subset = NULL,
+  nrows = -1L,
+  source_file_mark = F
+)
 
-read_ENEM(ft, i, root_path = NULL, file = NULL, vars_subset = NULL,
-  nrows = -1L, source_file_mark = F)
+read_ENEM(
+  ft,
+  i,
+  root_path = NULL,
+  file = NULL,
+  vars_subset = NULL,
+  nrows = -1L,
+  source_file_mark = F
+)
 
-read_CENSO(ft, i, root_path = NULL, file = NULL, vars_subset = NULL,
-  UF = NULL, nrows = -1L, source_file_mark = F)
+read_CENSO(
+  ft,
+  i,
+  root_path = NULL,
+  file = NULL,
+  vars_subset = NULL,
+  UF = NULL,
+  nrows = -1L,
+  source_file_mark = F
+)
 
-read_RAIS(ft, i, root_path = NULL, file = NULL, vars_subset = NULL,
-  UF = NULL, nrows = -1L, source_file_mark = F)
+read_RAIS(
+  ft,
+  i,
+  root_path = NULL,
+  file = NULL,
+  vars_subset = NULL,
+  UF = NULL,
+  nrows = -1L,
+  source_file_mark = F
+)
 
-read_CAGED(ft, i, root_path = NULL, file = NULL, vars_subset = NULL,
-  nrows = -1L, source_file_mark = F)
+read_CAGED(
+  ft,
+  i,
+  root_path = NULL,
+  file = NULL,
+  vars_subset = NULL,
+  nrows = -1L,
+  source_file_mark = F
+)
 
-read_PNAD(ft, i, root_path = NULL, file = NULL, vars_subset = NULL,
-  nrows = -1L, source_file_mark = F)
+read_NOVOCAGED(
+  ft,
+  i,
+  root_path = NULL,
+  file = NULL,
+  vars_subset = NULL,
+  nrows = -1L,
+  source_file_mark = F
+)
 
-read_PME(ft, i, root_path = NULL, file = NULL, vars_subset = NULL,
-  nrows = -1L, source_file_mark = F)
+read_PNAD(
+  ft,
+  i,
+  root_path = NULL,
+  file = NULL,
+  vars_subset = NULL,
+  nrows = -1L,
+  source_file_mark = F
+)
 
-read_POF(ft, i, root_path = NULL, file = NULL, vars_subset = NULL,
-  nrows = -1L, source_file_mark = F)
+read_PME(
+  ft,
+  i,
+  root_path = NULL,
+  file = NULL,
+  vars_subset = NULL,
+  nrows = -1L,
+  source_file_mark = F
+)
 
-read_PNADcontinua(ft, i, root_path = NULL, file = NULL,
-  vars_subset = NULL, nrows = -1L, source_file_mark = F)
+read_POF(
+  ft,
+  i,
+  root_path = NULL,
+  file = NULL,
+  vars_subset = NULL,
+  nrows = -1L,
+  source_file_mark = F
+)
 
-read_PNS(ft, i, root_path = NULL, file = NULL, vars_subset = NULL,
-  nrows = -1L, source_file_mark = F)
+read_PNADcontinua(
+  ft,
+  i,
+  root_path = NULL,
+  file = NULL,
+  vars_subset = NULL,
+  nrows = -1L,
+  source_file_mark = F
+)
+
+read_PNS(
+  ft,
+  i,
+  root_path = NULL,
+  file = NULL,
+  vars_subset = NULL,
+  nrows = -1L,
+  source_file_mark = F
+)
 }
 \arguments{
 \item{ft}{file type. Indicates the subdataset within the dataset. For example: "pessoa" (person) or "domicílio" (household) data from the "CENSO" (Census). For a list of available ft for the period just type an invalid ft (Ex: ft = 'aasfasf')}
