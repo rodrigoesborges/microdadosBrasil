@@ -18,7 +18,8 @@ knitr::opts_chunk$set(
 # microdadosBrasil
 
 ## work in progress 
-
+### Fork with changes from inribeiro - to revert Censo Demografico restrictions
+`microdadosBrasil` is originally a toolset to read public brazilian microdata such as PNAD and Censo Escolar maintained by [Lucas Mation](https://github.com/lucasmation/microdadosBrasil). In this fork, some functions were modified, e.g., download the Censo Demográfico only for Pernambuco (to be reverted), read Censo Escolar with ``ff`` to support very large datasets, among others.
 ### NEW:
 
 -   Don't use R? See: [using the package from Stata and Python](https://github.com/lucasmation/microdadosBrasil/blob/master/vignettes/Running_from_other_software.Rmd)
@@ -43,19 +44,24 @@ Currently the package includes import functions for:
   
 ```{r echo=FALSE}
 d <- data.frame(
-  Source = c('IBGE','IBGE','IBGE','IBGE','IBGE','INEP','INEP','MTE','MTE'),
-  Dataset = c('PNAD', 'Pnad Contínua', 'Censo Demográfico','PME','POF','Censo Escolar','Censo da Educ. Superior','CAGED','RAIS'),
-  Import_function = c('read_PNAD', 'read_PNADContinua', 'read_CENSO', 'read_PME', 'read_POF', 'read_CensoEscolar', 'read_CensoEducacaoSuperior', 'read_CAGED', 'read_RAIS'),
-  Period = c('1976 to 2015', '2012-1q to 2017-4q', '2000', '2002.01 to 2015.12', '2008', '1995 to 2014', '1995 to 2014', '2009.01 to 2016.05', '1998 to 2014'),
-  Subdataset = c('domicilios, pessoas', 'pessoas', 'domicilios, pessoas', 'vinculos', 'several, see details', 'escolas, ..., see details', 'see details', 'vinculos', 'estabelecimentos, vinculos')
+  Source = c('IBGE','IBGE','IBGE','IBGE','IBGE','INEP','INEP','INEP','MTE','MTE'),
+  Dataset = c('PNAD', 'Pnad Contínua', 'Censo Demográfico','PME','POF','Censo Escolar','Censo da Educ. Superior','Censo Escolar Formato 2023','CAGED','RAIS'),
+  Import_function = c('read_PNAD', 'read_PNADContinua', 'read_CENSO', 'read_PME', 'read_POF', 'read_CensoEscolar', 'read_CensoEducacaoSuperior','read_CensoEscolar_F2023', 'read_CAGED', 'read_RAIS'),
+  Period = c('1976 to 2015', '2012-1q to 2017-4q', '2000', '2002.01 to 2015.12', '2008', '1995 to 2019', '1995 to 2022', '2006 to 2023','2009.01 to 2023.05', '1998 to 2023'),
+  Subdataset = c('domicilios, pessoas', 'pessoas', 'domicilios, pessoas', 'vinculos', 'several, see details', 'escolas, ..., see details', 'see details','see details', 'vinculos', 'estabelecimentos, vinculos')
   )
 library(printr)
 d
 ```
 
-For the datasets in fwf format, the package includes, internally, a list of import dictionaries. These were constructed with the `import_SASdictionary` function, which users can use to import dictionaries from datasets not included here. Import dictionaries for the datasets included in the package can be accessed with the `get_import_dictionary` function. 
+For the datasets in fwf format, the package includes, internally, a list of import dictionaries. 
+These were constructed with the `import_SASdictionary` function, which users can use to import dictionaries 
+from datasets not included here. Import dictionaries for the datasets included in the package can be accessed 
+with the `get_import_dictionary` function. 
 
-The package also harmonizes folder names, folder structure and  file name that change overtime through a metadata table.It also unifies data that comes subdivides by regional subgroups (UF or região) into a single data object.   
+The package also harmonizes folder names, folder structure and  file name that change overtime through a 
+metadata table.It also unifies data that comes subdivides by regional subgroups (UF or região) into a single 
+data object.   
 
 
 ## Installation
@@ -63,7 +69,7 @@ The package also harmonizes folder names, folder structure and  file name that c
 ```{r eval=FALSE}
 install.packages("devtools")
 install.packages("stringi") 
-devtools::install_github("lucasmation/microdadosBrasil")
+devtools::install_github("rodrigoesborges/microdadosBrasil")
 library('microdadosBrasil')
 ```
 

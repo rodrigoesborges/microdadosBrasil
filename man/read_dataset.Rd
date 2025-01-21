@@ -3,6 +3,7 @@
 \name{read_dataset}
 \alias{read_dataset}
 \alias{read_CensoEscolar}
+\alias{read_CensoEscolarF2023}
 \alias{read_CensoEducacaoSuperior}
 \alias{read_ENEM}
 \alias{read_CENSO}
@@ -17,6 +18,17 @@
 \title{Functions to read most common Brazillian dataset}
 \usage{
 read_CensoEscolar(
+  ft,
+  i,
+  harmonize_varnames = F,
+  root_path = NULL,
+  file = NULL,
+  vars_subset = NULL,
+  nrows = -1L,
+  source_file_mark = F
+)
+
+read_CensoEscolarF2023(
   ft,
   i,
   harmonize_varnames = F,
